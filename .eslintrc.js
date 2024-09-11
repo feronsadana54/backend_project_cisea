@@ -22,4 +22,9 @@ module.exports = {
     '@typescript-eslint/explicit-module-boundary-types': 'off',
     '@typescript-eslint/no-explicit-any': 'off',
   },
+  extends: ['@nestjs/eslint-config'],
+  rules: {
+    'no-console': 'warn',
+    'max-len': ['warn', { code: 100 }],
+  },
 };

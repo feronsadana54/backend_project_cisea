@@ -1,85 +1,177 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# Proyek Manajemen Setoran - Backend API
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+Ini adalah proyek backend API untuk manajemen setoran bulanan dengan berbagai sumber penerimaan, pengelolaan pengguna, dan otentikasi. Proyek ini menggunakan **NestJS**, **TypeORM**, dan **Microsoft SQL Server** sebagai basis data.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## Fitur Utama
 
-## Description
+- Otentikasi pengguna (login, logout).
+- Pengelolaan pengguna dengan role-based access control (RBAC).
+- Manajemen sumber penerimaan negara dan subkategori.
+- Manajemen setoran bulanan dengan pelacakan berdasarkan tahun.
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+## Persyaratan
 
-## Project setup
+Sebelum menjalankan proyek, pastikan Anda telah menginstal:
+
+- Node.js (minimal versi 14.x)
+- Microsoft SQL Server
+- Redis (untuk manajemen token blacklist)
+
+## Instalasi
+
+1. Clone repositori ini ke dalam direktori lokal Anda:
 
 ```bash
-$ npm install
-```
+git clone https://github.com/username/repo-name.git
 
-## Compile and run the project
+Masuk ke dalam direktori proyek:
+cd repo-name
 
-```bash
-# development
-$ npm run start
+Install dependensi:
+npm install
 
-# watch mode
-$ npm run start:dev
+Sesuaikan file .env dengan konfigurasi database SQL Server dan Redis Anda. Contoh:
+DB_HOST=localhost
+DB_PORT=1433
+DB_USERNAME=your_db_user
+DB_PASSWORD=your_db_password
+DB_NAME=your_db_name
 
-# production mode
-$ npm run start:prod
-```
+REDIS_HOST=localhost
+REDIS_PORT=6379
+JWT_SECRET=your_jwt_secret
 
-## Run tests
+Jalankan migrasi database (jika ada).
 
-```bash
-# unit tests
-$ npm run test
+Menjalankan Aplikasi
+Untuk menjalankan aplikasi secara lokal:
 
-# e2e tests
-$ npm run test:e2e
+npm run start
 
-# test coverage
-$ npm run test:cov
-```
+Aplikasi akan berjalan di http://localhost:3000.
 
-## Resources
+Rute API
+1. Auth (Otentikasi)
+Login
+POST /api/auth/login
+Body:
 
-Check out a few resources that may come in handy when working with NestJS:
+{
+  "username": "your_username",
+  "password": "your_password"
+}
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+Logout
+POST /api/auth/logout
+Header: Authorization: Bearer <token>
 
-## Support
+2. Users (Pengguna)
+Get All Users
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+GET /api/users
+Create User
 
-## Stay in touch
+POST /api/users/create
+Body:
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+{
+  "username": "new_username",
+  "email": "user@example.com",
+  "password": "your_password",
+  "role": "SPESIALIS_KEUANGAN" // atau "AM_PPN"
+}
 
-## License
+Update User Role
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+PUT /api/users/:id/role
+Body:
+
+{
+  "role": "AM_PPN"
+}
+
+3. Kategori Sumber Penerimaan
+Get All Kategori
+
+GET /api/kategori-sumber-penerimaan
+Create Kategori
+
+POST /api/kategori-sumber-penerimaan/create
+Body:
+
+{
+  "nama": "Penerimaan Pajak"
+}
+
+Get Kategori by ID
+
+GET /api/kategori-sumber-penerimaan/:id
+Update Kategori
+
+PUT /api/kategori-sumber-penerimaan/:id
+Body:
+
+{
+  "nama": "Penerimaan Pajak Daerah"
+}
+
+Delete Kategori
+
+DELETE /api/kategori-sumber-penerimaan/:id
+4. Sub Kategori Sumber Penerimaan
+Get All Sub Kategori
+
+GET /api/subkategori-sumber-penerimaan
+Create Sub Kategori
+
+POST /api/subkategori-sumber-penerimaan/create
+Body:
+{
+  "nama": "PPH 21",
+  "persen_kota_kab": 30,
+  "persen_provinsi": 20,
+  "persen_pusat": 50,
+  "kategoriId": 1
+}
+
+Get Sub Kategori by ID
+
+GET /api/subkategori-sumber-penerimaan/:id
+Update Sub Kategori
+
+PUT /api/subkategori-sumber-penerimaan/:id
+Body:
+{
+  "nama": "PPH 22",
+  "persen_kota_kab": 35,
+  "persen_provinsi": 25,
+  "persen_pusat": 40
+}
+
+Delete Sub Kategori
+
+DELETE /api/subkategori-sumber-penerimaan/:id
+5. Pembayaran (Setoran)
+Create Pembayaran
+
+POST /api/pembayaran/create
+Body:
+{
+  "userId": 1,
+  "subKategoriId": 2,
+  "amount": 10000000,
+  "kota_kab": 3000000,
+  "provinsi": 2000000,
+  "pusat": 5000000,
+  "date": "2024-09-11"
+}
+
+Update Pembayaran
+
+PUT /api/pembayaran/update/:id
+Body:
+{
+  "amount": 12000000,
+  "date": "2024-09-12"
+}
+

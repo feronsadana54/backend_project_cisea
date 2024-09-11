@@ -1,16 +1,10 @@
 import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 
-@Entity('setoran')
-export class Setoran {
+@Entity('kategori_sumber_penerimaan')
+export class KategoriSumberPenerimaan {
   @PrimaryGeneratedColumn()
   id: number;
 
   @Column()
-  name: string;
-
-  @Column()
-  amount: number;
-
-  @Column()
-  date: string;
+  nama: string;
 }
